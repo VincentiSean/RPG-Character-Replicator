@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose your path{% endblock %}
+
+{% block content %}
+
+    <h1>
+        Race: {{ request.session.race_id }}
+        <br>
+        Class: 
+            <span id="classTitle">
+                {{ request.session.class_id }}
+            </span>
+    </h1>
+
+    {% csrf_token %}
+    <section id="detailsSection">
+    </section>
+
+
+<script src='../../../static/js/allClassInfo.js'></script>
+<script src='../../../static/js/classSpecific.js'></script>
+<script src='../../../static/js/accordion.js'></script>
+{% endblock %}

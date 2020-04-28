@@ -1,0 +1,26 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on localhost:8000
+From: webmaster@localhost
+To: vincenti.sean@gmail.com
+Date: Thu, 27 Feb 2020 02:06:27 -0000
+Message-ID: 
+ <158276918752.5552.13901699796987301013@Hyperion.hsd1.pa.comcast.net>
+
+
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/accounts/reset/MQ/5eb-d30e9a9bfaa0cd8213d1/
+
+Your username, in case you’ve forgotten: seanvincenti
+
+Thanks for using our site!
+
+The localhost:8000 team
+
+
+
+-------------------------------------------------------------------------------

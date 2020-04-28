@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+
+{% block title %}Ability Scores{% endblock %}
+
+{% block content %}
+
+<h1>Ability Scores</h1>
+<div id="statContainer">
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {{ form.as_p }}
+        <!-- <label class="abilityLabel">Strength</label>
+        <input id="str" onchange="StrChange();" type="number" name="str">
+        <label class="abilityLabel">Dexterity</label>
+        <input id="dex" onchange="DexChange();" type="number" name="dex">
+        <label class="abilityLabel">Constitution</label>
+        <input id="con" onchange="ConChange();" type="number" name="con">
+        <label class="abilityLabel">Intelligence</label>
+        <input id="int" onchange="IntChange();" type="number" name="int">
+        <label class="abilityLabel">Wisdom</label>
+        <input id="wis" onchange="WisChange();" type="number" name="wis">
+        <label class="abilityLabel">Charisma</label>
+        <input id="char" onchange="CharChange();" type="number" name="cha"> -->
+        <input type="submit">
+    </form>
+</div>
+<div id="calculationContainer">
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Strength</th>
+            </tr>
+        </thead>
+        <br>
+        <tr>   
+            <td>
+                <label class="statLabel">Base Score</label>
+            </td>
+            <td>
+                <label id="strBase" class="numBase">0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Racial Bonus</label>
+            </td>
+            <td>
+                <label id="strRacial" class="numRacial">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Total Score</label>
+            </td>
+            <td>
+                <label id="strTotal" class="numTotal">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Modifier</label>
+            </td>
+            <td>
+                <label id='strMod' class="numMod">+0</label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Dexterity</th>
+            </tr>
+        </thead>
+        <br>
+        <tr>   
+            <td>
+                <label class="statLabel">Base Score</label>
+            </td>
+            <td>
+                <label id="dexBase" class="numBase">0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Racial Bonus</label>
+            </td>
+            <td>
+                <label id="dexRacial" class="numRacial">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Total Score</label>
+            </td>
+            <td>
+                <label id="dexTotal" class="numTotal">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Modifier</label>
+            </td>
+            <td>
+                <label id='dexMod' class="numMod">+0</label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Constitution</th>
+            </tr>
+        </thead>
+        <br>
+        <tr>   
+            <td>
+                <label class="statLabel">Base Score</label>
+            </td>
+            <td>
+                <label id="conBase" class="numBase">0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Racial Bonus</label>
+            </td>
+            <td>
+                <label id="conRacial" class="numRacial">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Total Score</label>
+            </td>
+            <td>
+                <label id="conTotal" class="numTotal">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Modifier</label>
+            </td>
+            <td>
+                <label id='conMod' class="numMod">+0</label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Intelligence</th>
+            </tr>
+        </thead>
+        <br>
+        <tr>   
+            <td>
+                <label class="statLabel">Base Score</label>
+            </td>
+            <td>
+                <label id="intBase" class="numBase">0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Racial Bonus</label>
+            </td>
+            <td>
+                <label id="intRacial" class="numRacial">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Total Score</label>
+            </td>
+            <td>
+                <label id="intTotal" class="numTotal">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Modifier</label>
+            </td>
+            <td>
+                <label id='intMod' class="numMod">+0</label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Wisdom</th>
+            </tr>
+        </thead>
+        <br>
+        <tr>   
+            <td>
+                <label class="statLabel">Base Score</label>
+            </td>
+            <td>
+                <label id="wisBase" class="numBase">0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Racial Bonus</label>
+            </td>
+            <td>
+                <label id="wisRacial" class="numRacial">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Total Score</label>
+            </td>
+            <td>
+                <label id="wisTotal" class="numTotal">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Modifier</label>
+            </td>
+            <td>
+                <label id='wisMod' class="numMod">+0</label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Charisma</th>
+            </tr>
+        </thead>
+        <br>
+        <tr>   
+            <td>
+                <label class="statLabel">Base Score</label>
+            </td>
+            <td>
+                <label id="charBase" lass="numBase">0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Racial Bonus</label>
+            </td>
+            <td>
+                <label id="charRacial" class="numRacial">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Total Score</label>
+            </td>
+            <td>
+                <label id="charTotal" class="numTotal">+0</label>
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <td>
+                <label class="statLabel">Modifier</label>
+            </td>
+            <td>
+                <label id='charMod' class="numMod">+0</label>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src='../../../static/js/stats.js'></script>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <nav class="welcomeNav">
+        <h1 class="welcomeText">Hello {{ user.username }}!</h1>
+        <ul>
+            <li>
+                <a href="{% url 'create' %}">Create a Character</a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li>
+                <a href="{% url 'password_reset' %}">reset password</a>
+            </li>
+    </nav>
+    <div id="characterContainer">
+        {% if request.session.hasCharacters == 1 %}
+            <h1>Your Characters</h1>
+            {% for character in request.session.allCharacters %}
+                <div class="charHolder" >
+                    <h2>{{ character.name }}</h2>
+                    <p>Lvl {{ character.level }} | {{ character.race }} | {{ character.class }}</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="charID" value={{ character.id }}>
+                        <button action="{% url 'character' %}" type="submit">Character Sheet</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% else %}
+    <nav class="welcomeNav">
+        <h1 class="welcomeText">You are not logged in</h1>
+        <a href="{% url 'login' %}">Login</a>
+    </nav>
+{% endif %}
+{% endblock %}

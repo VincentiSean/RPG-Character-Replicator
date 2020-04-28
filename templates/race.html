@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}Pick a Race{% endblock %}
+
+{% block content %}
+    <nav class="welcomeNav">
+        <h1 class="welcomeText">Hello {{ user.username }}!</h1>
+        <ul>
+            <li>
+                <a href="">Create a Character</a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li>
+                <a href="{% url 'password_reset' %}">reset password</a>
+            </li>
+    </nav>
+    <div id="createContainer">
+        <form method="POST">
+            <div class="detailsContainer">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <label>Character Race</label>
+                    <select onchange="raceChange()" name="character_race" id="id_character_race">
+                        <option value="Aarakocra">Aarakocra</option>
+                        <option value="Aasimar">Aasimar</option>
+                        <option value="Dragonborn">Dragonborn</option>
+                        <option value="Hill Dwarf">Hill Dwarf</option>
+                        <option value="Mountain Dwarf">Mountain Dwarf</option>
+                        <option value="Eladrin Elf">Eladrin Elf</option>
+                        <option value="High Elf">High Elf</option>
+                        <option value="Wood Elf">Wood Elf</option>
+                        <option value="Air Genasi">Air Genasi</option>
+                        <option value="Earth Genasi">Earth Genasi</option>
+                        <option value="Fire Genasi">Fire Genasi</option>
+                        <option value="Water Genasi">Water Genasi</option>
+                        <option value="Deep Gnome">Deep Gnome</option>
+                        <option value="Rock Gnome">Rock Gnome</option>
+                        <option value="Goliath">Goliath</option>
+                        <option value="Half-Elf">Half-Elf</option>
+                        <option value="Half-Orc">Half-Orc</option>
+                        <option value="Lightfoot Halfling">Lightfoot Halfling</option>
+                        <option value="Stout Halfling">Stout Halfling</option>                
+                        <option value="Human">Human</option>
+                        <option value="Tiefling">Tiefling</option>
+                    </select>
+                    <label>Character Class</label>
+                    <select onchange="classChange()" name="character_class" id="id_character_class">
+                        <option value="Barbarian">Barbarian</option>
+                        <option value="Bard">Bard</option>
+                        <option value="Cleric">Cleric</option>
+                        <option value="Druid">Druid</option>
+                        <option value="Fighter">Fighter</option>
+                        <option value="Monk">Monk</option>
+                        <option value="Paladin">Paladin</option>
+                        <option value="Ranger">Ranger</option>
+                        <option value="Rogue">Rogue</option>
+                        <option value="Sorcerer">Sorcerer</option>
+                        <option value="Warlock">Warlock</option>
+                        <option value="Wizard">Wizard</option>
+                    </select>
+                    <br>
+                    <input name="racialBonus"  id="racialBonus" type="hidden" name="race_bonus" value="" content="">
+                    <input name="spellCastingAbility" id="spellCastingAbility" type="hidden" name="spell_casting_ability" value="" content="">
+                    <input name="speedNum" id="speedNum" type="hidden" value="" content="">
+                    <input name="hitpoints" id="hitpoints" type="hidden" value="" content="">
+                    <input name="savingThrows" id="savingThrows" type="hidden" value="" content="">
+                    <input name="abilities" id="abilities" type="hidden" value="" content="">
+                    <input name="classProfsList" id="classProfsList" type="hidden" value="" content="">
+                    <input name="langList" id="langList" type="hidden" value="" content="">
+                    <!-- <button type="submit">Next Step</button>  -->
+                <!-- </form> -->
+            </div>
+            <div class="scrollContainer">
+                <div class="detailsContainer" id="raceContainer">
+                    <h1 id="raceHeader"></h1>
+                    <p id="aboutRace"></p>
+                    <h3 class="titleDescriptor">Ability Score Increase</h3>
+                    <p id="abilityScore"></p>
+                    <h3 class="titleDescriptor">Age</h3>
+                    <p id="age"></p>
+                    <h3 class="titleDescriptor">Alignment</h3>
+                    <p id="alignment"></p>
+                    <h3 class="titleDescriptor">Size</h3>
+                    <p id="size"></p>
+                    <h3 class="titleDescriptor">Speed</h3>
+                    <p id="speed"></p>
+                    <h3 class="titleDescriptor">Languages</h3>
+                    <p id="languages"></p>
+                    <div id="abilitiesContainer">
+                    </div>
+                </div>
+            </div>
+            <div class="scrollContainer">
+                <div class="detailsContainer" id="classContainer">
+                    <h1 id="classHeader"></h1>
+                    <p id="aboutClass"></p>
+                    <h3 class="titleDescriptor">Primary Ability</h3>
+                    <p id="primaryStat"></p>
+                    <h3 class="titleDescriptor">Saves</h3>
+                    <p id="saves"></p>
+                    <h2 class="subTitleDescriptor">Hit Points</h2>
+                    <h3 class="titleDescriptor">Hit Dice</h3>
+                    <p id="hitdice"></p>
+                    <h3 class="titleDescriptor">Hit Points at 1st Level</h3>
+                    <p id="hitPointsStart"></p>
+                    <h3 class="titleDescriptor">Hit Points at Higher Levels</h3>
+                    <p id="hitPointsHigh"></p>
+                    <h2 class="subTitleDescriptor">Proficiencies</h2>
+                    <h3 class="titleDescriptor">Armor</h3>
+                    <p id="armor"></p>
+                    <h3 class="titleDescriptor">Weapons</h3>
+                    <p id="weapons"></p>
+                    <h3 class="titleDescriptor">Tools</h3>
+                    <p id="tools"></p>
+                    <h3 class="titleDescriptor">Saving Throws</h3>
+                    <p name="savingThrows" id="savingThrowsP"></p>
+                    <h3 class="titleDescriptor">Skills</h3>
+                    <p id="skills"></p>
+                    <!-- <input type="checkbox" name="" value="">
+                    <label for=""></label><br> -->
+                    <div id="classProficiencies">
+                    </div>
+                    <div id="classAbilitiesContainer">
+                        <!-- <ul id="id_skillProfs">
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+            <button type="submit">Next Step</button>
+        </form>
+    </div>
+
+    <!-- {% load static %} -->
+    <script src='../../static/js/raceJSON.js'></script>
+    <script src='../../static/js/classJSON.js'></script>
+    <script src="../../static/js/raceAndClassHandler.js"></script>
+{% endblock %}

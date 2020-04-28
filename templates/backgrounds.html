@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Backgrounds{% endblock %}
+
+{% block content %}
+
+<h1>Backgrounds</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="gold" id="gold" value="" content="">
+    <input type="submit">
+</form>
+
+<div id="backgroundContainer">
+    <h1 id="backgroundName"></h1>
+    <h4 id="backgroundDesc"></h4>
+    <p id="skillProfs"></p>
+    <p id="toolProfs"></p>
+    <p id="languages"></p>
+    <p id="equipment"></p>
+    <p id="currency"></p>
+    <ul id="features">
+
+    </ul>
+</div>
+
+<script src='../../../static/js/allBackgrounds.js'></script>
+<script src='../../../static/js/backgrounds.js'></script>
+{% endblock %}

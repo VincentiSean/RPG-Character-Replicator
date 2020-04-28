@@ -1,0 +1,29 @@
+<!-- templates/signup.html -->
+{% extends 'base_form.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div id="contentWrapper">
+    <div id="leftWrapper">
+        <div id="formWrapper">
+            <h1>Sign Up</h1>
+            <form method="POST" class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <!-- <label>Username</label><br>
+                <input type="text" name="username"><br>
+                <label>Password</label><br>
+                <input type="password" name="password"><br>
+                <label>Password Confirmation</label><br>
+                <input type="password" name="passordConfirm"><br>-->
+                <br>
+                <button type="submit">Sign Up</button> 
+                <a id="signUpLink" href="{% url 'login' %}">Alreadyt a member? Log in!</a>
+            </form>
+        </div>
+    </div>
+    <div id="rightWrapperSignup">
+    </div>
+</div>
+{% endblock %}
