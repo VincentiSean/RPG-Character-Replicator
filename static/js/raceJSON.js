@@ -1,7 +1,6 @@
 var raceData = {
     "races" : [
         {
-    
             "race": "Aarakocra",
             "raceBonus": "dex+2;wis+1",
             "description": "Sequestered in high mountains atop tall trees, the aarakocra, sometimes called birdfolk, evoke fear and wonder.",
