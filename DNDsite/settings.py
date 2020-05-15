@@ -131,3 +131,8 @@ LOGOUT_REDIRECT_URL = 'home'
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
+FIXTURE_DIRS = (
+   os.path.join(PROJECT_DIR, 'fixtures'),
+)
