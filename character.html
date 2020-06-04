@@ -1,0 +1,474 @@
+{% extends 'character_base.html' %}
+
+{% block title %}Ability Scores{% endblock %}
+
+{% block content %}
+{% load range %}
+<div id="charBasics">
+    <div id="nameHolder">
+        <h1>{{ request.session.character.name }}</h1>
+    </div>
+    <div id="basicInfo">
+        <h4 id="realClass">{{ request.session.character.class }}</h4>
+        <h5 id="textClass">CLASS</h5>
+        <h4 id="realLevel">{{request.session.character.level }}</h4>
+        <h5 id="textLevel">LEVEL</h5>
+        <h4 id="realPath">{{ request.session.character.classPath }}</h4>
+        <h5 id="textPath">Class Path</h5>
+        <h4 id="realBackground">{{ request.session.character.background }}</h4>
+        <h5 id="textBackground">BACKGROUND</h5>
+        <h4 id="realRace">{{ request.session.character.race }}</h4>
+        <h5 id="textRace">RACE</h5>
+        <h4 id="realAlignment">{{ request.session.character.alignment }}</h4>
+        <h5 id="textAlignment">ALIGNMENT</h5>
+    </div>
+</div>
+<div id="abilitiesContainer">
+    <div class="ability">
+        <div class="abilitySubCont"></div>
+        <div class="abilityNameHolder">
+            <h5>Strength</h5>
+        </div>
+        <div class="abilityModHolder">
+            <h2>{{ request.session.character.strMod }}</h2>
+        </div>
+        <div class="abilityScoreHolder">            
+            <h4>{{ request.session.character.strength }}</h4>
+        </div>
+    </div>
+    <div class="ability">
+        <div class="abilitySubCont">
+            <div class="abilityNameHolder">
+                <h5>Dexterity</h5>
+            </div>
+            <div class="abilityModHolder">
+                <h2>{{ request.session.character.dexMod }}</h2>
+            </div>
+            <div class="abilityScoreHolder">
+                <h4>{{ request.session.character.dexterity }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="ability">
+        <div class="abilitySubCont">
+            <div class="abilityNameHolder">
+                <h5>Constitution</h5>
+            </div>
+            <div class="abilityModHolder">
+                <h2>{{ request.session.character.conMod }}</h2>
+            </div>
+            <div class="abilityScoreHolder">
+                <h4>{{ request.session.character.constitution }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="ability">
+        <div class="abilitySubCont">
+            <div class="abilityNameHolder">
+                <h5>Intelligence</h5>
+            </div>
+            <div class="abilityModHolder">
+                <h2>{{ request.session.character.intMod }}</h2>
+            </div>
+            <div class="abilityScoreHolder">
+                <h4>{{ request.session.character.intelligence }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="ability">
+        <div class="abilitySubCont">
+            <div class="abilityNameHolder">
+                <h5>Wisdom</h5>
+            </div>
+            <div class="abilityModHolder">
+                <h2>{{ request.session.character.wisMod }}</h2>
+            </div>
+            <div class="abilityScoreHolder">
+                <h4>{{ request.session.character.wisdom }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="ability">
+        <div class="abilitySubCont">
+            <div class="abilityNameHolder">
+                <h5>Charisma</h5>
+            </div>
+            <div class="abilityModHolder">
+                <h2>{{ request.session.character.charMod }}</h2>
+            </div>
+            <div class="abilityScoreHolder">
+                <h4>{{ request.session.character.charisma }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="initAndOtherContainer">
+    <div id="proficiencyContainer">
+        <div class="squareContainer"></div>   
+        <div class="squareTopText">
+            <h5>Proficiency</h5>
+        </div>    
+        <div id="profNum">
+            <h2>{{ request.session.character.proficiency }}</h2>
+        </div>
+        <div class="squareBottomText">   
+            <h5>Bonus</h5>
+        </div>
+    </div>
+    <div id="speedContainer">
+        <div class="squareContainer"></div>   
+        <div class="squareTopText">
+            <h5>Walking</h5>
+        </div>    
+        <div id="speedNum">
+            <h2>{{ request.session.character.speed }} ft.</h2>
+        </div>
+        <div class="squareBottomText">
+            <h5>Speed</h5>
+        </div>
+    </div>
+    <div id="initiativeContainer">
+        <h5>Initiative</h5>
+        <div id="initiativeBackground"></div>
+        <div id="initiative">
+            <h2>{{ request.session.character.initiative }}</h2>
+        </div>
+    </div>
+    <div id="ac">
+        <div id="acBackground"></div>
+        <div id="acTopText">
+            <h5>Armor</h5>
+        </div>
+        <div id="acNum">
+            <h2>{{ request.session.character.armorClass }}</h2>
+        </div>
+        <div id="acBottomText">
+            <h5>Class</h5>
+        </div>
+    </div>
+</div>
+
+<div id="savingContainer">
+    <div id="savingBackgroundContainer"></div>
+    <div id=savingThrows>
+        <div id="strSaveContainer" class="eachSaveContainer">
+            <p class="savingTitle">STR</p><p class="savingNum">{{ request.session.character.strSave }}</p>
+        </div>
+        <div id="dexSaveContainer" class="eachSaveContainer">
+            <p class="savingTitle">DEX</p><p class="savingNum">{{ request.session.character.dexSave }}</p>
+        </div>
+        <div id="conSaveContainer" class="eachSaveContainer">
+            <p class="savingTitle">CON</p><p class="savingNum">{{ request.session.character.conSave }}</p>
+        </div>
+        <div id="intSaveContainer" class="eachSaveContainer">
+            <p class="savingTitle">INT</p><p class="savingNum">{{ request.session.character.intSave }}</p>
+        </div>
+        <div id="wisSaveContainer" class="eachSaveContainer">
+            <p class="savingTitle">WIS</p><p class="savingNum">{{ request.session.character.wisSave }}</p>
+        </div>
+        <div id="charSaveContainer" class="eachSaveContainer">
+            <p class="savingTitle">CHA</p><p class="savingNum">{{ request.session.character.charSave }}</p>
+        </div>
+    </div>
+    <h3 class="boxTitles" id="saveText">Saving Throws</h3>
+</div>
+<div id="skillContainer">
+    <div id="skillBackgroundContainer"></div>
+    <div id="skills">
+        <div class="skillRows" id="titleRow">
+            <p class="skillFirst">PROF</p><p class="skillSecond">MOD</p><p class="skillThird">SKILL</p><p class="skillFourth">BONUS</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">DEX</p><p class="skillThird skillBorder">Acrobatics</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.acrobatics }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">WIS</p><p class="skillThird skillBorder">Animal Handling</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.animalHandling }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">INT</p><p class="skillThird skillBorder">Arcana</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.arcana }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">STR</p><p class="skillThird skillBorder">Athletics</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.athletics }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">CHA</p><p class="skillThird skillBorder">Deception</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.deception }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">INT</p><p class="skillThird skillBorder">History</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.history }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">WIS</p><p class="skillThird skillBorder">Insight</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.insight }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">CHA</p><p class="skillThird skillBorder">Intimidation</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.intimidation }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">INT</p><p class="skillThird skillBorder">Investigation</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.investigation }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">WIS</p><p class="skillThird skillBorder">Medicine</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.medicine }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">INT</p><p class="skillThird skillBorder">Nature</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.nature }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">WIS</p><p class="skillThird skillBorder">Perception</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.perception }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">CHA</p><p class="skillThird skillBorder">Performance</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.performance }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">CHA</p><p class="skillThird skillBorder">Persuasion</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.persuasion }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">INT</p><p class="skillThird skillBorder">Religion</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.religion }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">DEX</p><p class="skillThird skillBorder">Sleight of Hand</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.sleightHand }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">DEX</p><p class="skillThird skillBorder">Stealth</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.stealth }}</p>
+        </div>
+        <div class="skillRows">
+            <p class="skillFirst"></p><p class="skillSecond smAbility">WIS</p><p class="skillThird skillBorder">Survival</p><p class="skillFourth skillBorder skillBonus">{{ request.session.character.survival }}</p>
+        </div>
+        <h3 class="boxTitles">Skills</h3>
+    </div>  
+</div>
+<div id="hitpointInspirationContainer">
+    <div id="inspirationContainer">
+        <div id="inspiration"></div>
+        <h2>{{ request.session.charcter.inspiration }}</h2>
+        <h5>Inspiration</h5>
+    </div>
+    <div id="hitpointContainer">
+        <div id="hitpointBackground"></div>
+        <div id="changeHitpointContainer">
+            <button class="healthButtons" id="healButton">Heal</button>
+            <input id="healthInput" type=number>
+            <button class="healthButtons" id="damageButton">Damage</button>
+        </div>
+        <div id="basicHitpointContainer">
+            <h4 id="current">Current</h4>
+            <h4 id="max">Max</h4>
+            <h4 id="temp">Temp</h4>
+            <h3 id="currHit">{{ request.session.character.currHitpoints }}</h3>
+            <p class="gray" id="slash">/</p>
+            <h3 id="maxHit">{{ request.session.character.maxHitpoints }}</h3>
+            {% if request.session.character.tempHitpoints == 0 %}
+                <h3 class="gray" id="tempHit">--</h3>
+            {% else %}
+                <h3 class="black" id="tempHit">{{ request.session.character.tempHitpoints }}</h3>
+            {% endif %}
+            <h4 class="boxTitles" id="hitpoints">Hit Points</h4>
+        </div>
+    </div>
+</div>
+<div id="senseContainer">
+    <div id="senseBackgroundContainer"></div>
+    <div class="passiveContainer">
+        <div class="senseBackground"></div>
+        <p class="passiveNum">{{ request.session.character.wisMod|add:10 }}</p>
+        <p class="passiveWords">Passive wis (perception)</p>
+    </div>
+    <div class="passiveContainer">
+        <div class="senseBackground"></div>
+        <p class="passiveNum">{{ request.session.character.intMod|add:10 }}</p>
+        <p class="passiveWords">Passive int (investigation)</p>
+    </div>
+    <div class="passiveContainer">
+        <div class="senseBackground"></div>
+        <p class="passiveNum">{{ request.session.character.wisMod|add:10 }}</p>
+        <p class="passiveWords">Passive wis (insight)</p>
+    </div>
+    {% if request.session.character.senses != null %}
+        <div id="sensesDiv">
+            {% for sense in request.session.character.senses %}
+                <p>{{ sense }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <p class="boxTitles" id="sensesText">Senses</p>
+</div>
+<div id="profAndLangContainer">
+    <div id="languageBackground"></div>
+    <div class="skillBorder" id="armorContainer">
+        <h3 class="profTitle">Armor</h3>
+        <p class="profsContent">{{ request.session.character.armorProfs }}</p>
+    </div>
+    <div class="skillBorder" id="weaponContainer">
+        <h3 class="profTitle">Weapons</h3>
+        <p class="profsContent">{{ request.session.character.weaponProfs }}</p>
+    </div>
+    <div class="skillBorder" id="toolContainer">
+        <h3 class="profTitle">Tools</h3>
+        <p class="profsContent">{{ request.session.character.toolProfs }}</p>
+    </div>
+    <div class="skillBorder" id="languageContainer">
+        <h3 class="profTitle">Languages</h3>
+        <p class="profsContent">{{ request.session.character.lanuages }}</p>
+    </div>
+    <p class="boxTitles" id="profAndLangText">Proficiencies & Languages</p>
+</div>
+<div id="conditionContainer">
+    <div id="conditionBackground"></div>
+</div>
+<div id="generalContentContainer">
+    <div id="generalBackground"></div>
+    <nav class="tab" id="tabNav">
+        <button class="general tablinks" onclick="openTab(event, 'actions', this)">ACTIONS</button>
+        <button class="general tablinks" onclick="openTab(event, 'spells', this)">SPELLS</button>
+        <button class="general tablinks" onclick="openTab(event, 'equipment', this)">EQUIPMENT</button>
+        <button class="general tablinks" onclick="openTab(event, 'featsTraits', this)">FEATURES & TRAITS</button>
+        <button class="general tablinks" onclick="openTab(event, 'description', this)">DESCRIPTION</button>
+        <button class="general tablinks" onclick="openTab(event, 'notes', this)">NOTES</button>
+        <button class="general tablinks" onclick="openTab(event, 'extras', this)">EXTRAS</button>
+    </nav>
+    <div id="actions" class="tabContent">
+        <nav class="actionTab" id="actionNav">
+            <button class="actions tablinks" onclick="openTab(event, 'all', this)">ALL</button>
+            <button class="actions tablinks" onclick="openTab(event, 'attack', this)">ATTACK</button>
+            <button class="actions tablinks" onclick="openTab(event, 'action', this)">ACTION</button>
+            <button class="actions tablinks" onclick="openTab(event, 'bonusAction', this)">BONUS ACTION</button>
+            <button class="actions tablinks" onclick="openTab(event, 'reaction', this)">REACTION</button>
+            <button class="actions tablinks" onclick="openTab(event, 'other', this)">OTHER</button>
+        </nav>
+        <div id="all" class="tabActionContent"></div>
+        <div id="attack" class="tabActionContent"></div>
+        <div id="action" class="tabActionContent"></div>
+        <div id="bonusAction" class="tabActionContent"></div>
+        <div id="reaction" class="tabActionContent"></div>
+        <div id="other" class="tabActionContent"></div>
+    </div>
+    <div id="spells" class="tabContent">
+        <div id="spellStatBlock">
+            <div class="spellBlock" id="spellModBlock">
+                <p>+<span>{{ request.session.spellMod }}</span></p>
+                <h5>MODIFIER</h5>
+            </div>
+            <div class="spellBlock" id="spellModBlock">
+                <p>+<span>{{ request.session.spellAttack }}</span></p>
+                <h5>SPELL ATTACK</h5>
+            </div>
+            <div class="spellBlock" id="spellSaveBlock">
+                <p>+<span>{{ request.session.spellSaveDC }}</span></p>
+                <h5>SAVE DC</h5>
+            </div>
+        </div>
+        <div id="spellSearchBlock">
+            <input type="search" style="font-family: FontAwesome, Roboto;" placeholder="&#xf002; Search Spell Names, Casting Times, Damage Types, Conditions or Tags">
+            <input type="button" name="manageSpells" value="Manage Spells" onclick="openOverlay(event, 'manageSpellOverlay', this)">
+        </div>
+        <div id="spellLvlBlock">
+            {% for x in request.session.character.sorcererSpells|get_range %}
+                {% if x == 1 %}
+                    <input class="spells tablinks" type="button" name="allSpells" value="ALL" onclick="openTab(event, 'all', this)">
+                {% elif x == 2 %}
+                    <input class="spells tablinks" type="button" name="cantrips" value="- 0 -" onclick="openTab(event, 'cantrips', this)">
+                {% elif x == 3 %}
+                    <input class="spells tablinks" type="button" name=1LevelSpells value="1ST" onclick="openTab(event, '1Spells', this)">
+                {% elif x == 4 %}
+                    <input class="spells tablinks" type="button" name="2LevelSpells" value="2ND" onclick="openTab(event, '2Spells', this)">
+                {% elif x == 5 %}
+                    <input class="spells tablinks" type="button" name="3LevelSpells" value="3RD" onclick="openTab(event, '3Spells', this)">
+                {% elif x >= 6 %}
+                    <input class="spells tablinks" type="button" name="{{ x|add:-2 }}LevelSpells" value={{ x }}TH onclick="openTab(event, '{{ x|add:-2 }}Spells', this)">
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div id="spellContainer">
+            <div class="spellDiv" id="cantrips">
+                <h2>cantrips</h2>
+            </div>
+            <div class="spellDiv" id="1Spells">
+                <h2>1</h2>
+            </div>
+            <div class="spellDiv" id="2Spells">
+                <h2>2</h2>
+            </div>
+            <div class="spellDiv" id="3Spells">
+                <h2>3</h2>
+            </div>
+            <div class="spellDiv" id="4Spells">
+                <h2>4</h2>
+            </div>
+            <div class="spellDiv" id="5Spells">
+                <h2>5</h2>
+            </div>
+            <div class="spellDiv" id="6Spells">
+                <h2>6</h2>
+            </div>
+            <div class="spellDiv" id="7Spells">
+                <h2>7</h2>
+            </div>
+            <div class="spellDiv" id="8Spells">
+                <h2>8</h2>
+            </div>
+            <div class="spellDiv" id="9Spells">
+                <h2>9</h2>
+            </div>
+        </div>
+    </div> 
+    <div id="equipment" class="tabContent"></div>
+    <div id="featsTraits" class="tabContent"></div>
+    <div id="description" class="tabContent"></div>
+    <div id="notes" class="tabContent"></div>
+    <div id="extras" class="tabContent"></div>
+
+</div>
+
+<div id="overlay">
+    <div id="exitDiv">
+        <h3>{{ request.session.character.class }}</h3>
+        <input id="overlayExit" type="button" value="x" onclick="closeOverlay()">
+    </div>
+    <div id="manageSpellOverlay">
+        <div class="collapsible">
+            <p>Add Spell</p>
+            <p class="collapseArrow" style="font-family: FontAwesome, Roboto;">&#xf078;</p>
+        </div>
+        <div class="hiddenContent">
+            <p>Cantrips: {{ request.session.character.sorcCantripKnown }}/{{ request.session.character.sorcCantripPoss }}</p>
+            <p>Known Spells: {{ request.session.character.sorcSpellKnown }}/{{ request.session.character.sorcSpellPoss }}</p>
+            <h5>Filter</h5>    
+            <input type="search" style="font-family: FontAwesome, Roboto;" placeholder="&#xf002; Enter Spell Name">
+            <h5>Filter By Spell Level</h5>
+            <div id="spellLevelButtons">
+            {% for x in request.session.character.sorcererSpells|get_range %}
+                {% if x == 1 %}
+                    <input class="spellLvlButton active" type="button" name="allSpellsButton" value="ALL">
+                {% elif x == 2 %}
+                    <input class="spellLvlButton" type="button" name="cantripsButton" value="- 0 -">
+                {% elif x == 3 %}
+                    <input class="spellLvlButton" type="button" name="1LevelSpellsButton" value="1ST">
+                {% elif x == 4 %}
+                    <input class="spellLvlButton" type="button" name="2LevelSpellsButton" value="2ND">
+                {% elif x == 5 %}
+                    <input class="spellLvlButton" type="button" name="3LevelSpellsButton" value="3RD">
+                {% elif x >= 6 %}
+                    <input class="spellLvlButton" type="button" name="{{ x|add:-2 }}LevelSpellsButton" value={{ x }}TH>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div id="filteredSpellContainer">
+                {% with class=request.session.character.class %}
+                    {% for spell in request.session.spells %}
+                        {% if class in spell.classes %}
+                            <h5>{{ spell.name }}<span id="spellLvl">({{ spell.levelSmall }})</span></h5>
+                        {% endif %}
+                    {% endfor %}
+                {% endwith %}
+            </div>
+        </div>
+        <div class="collapsible">
+            <p>Known Spells</p>
+            <p class="collapseArrow" style="font-family: FontAwesome, Roboto;">&#xf078;</p>
+        </div>
+    </div>
+</div>
+
+<!-- {% load static %} -->
+<script src='../../static/js/tabScript.js'></script>
+<script src='../../static/js/overlay.js'></script>
+<script src='../../static/js/collapsible.js'></script>
+{% endblock %}
