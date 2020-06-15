@@ -247,13 +247,14 @@ class Items(models.Model):
 
     
 class UsersItems(models.Model):
-    userID = models.IntegerField()
+    userID = models.CharField(max_length=100, default='Error')
     itemID = models.IntegerField()
 
 class UsersSpells(models.Model):
-    userID = models.IntegerField()
+    id = models.CharField(max_length=100, primary_key=True)
+    userID = models.CharField(max_length=100, default='Error')
     spellID = models.IntegerField()
 
 class UsersFeatures(models.Model):
-    userID = models.IntegerField()
+    userID = models.CharField(max_length=100, default='Error')
     featureID = models.IntegerField()

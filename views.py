@@ -1,14 +1,17 @@
 # accounts/views.py
 import uuid
+import time
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm, RaceForm, PathForm, StatsForm, BackgroundForm, EquipmentForm, TraitsForm
-from .models import Character, Spells
+from .models import Character, Spells, UsersSpells
 from .findModifier import getModifier
 from .findSkill import findSkill
 from .getSpellAmount import getSorcSpellAmt
@@ -22,6 +25,7 @@ def home(request):
     characterClasses = []
     characterIDs = []
     request.session['hasCharacters'] = 1
+    request.session['userID'] = userID
     
     #   IF USER HAS CHARACTERS GET CHARACTER NAME/LEVEL/RACE/CLASS  #
     if (Character.objects.filter(userID = userID)):
@@ -52,7 +56,6 @@ def home(request):
 
     if request.method == "POST":
         characterID = request.POST.get('charID')
-        print(characterID)
         request.session['characterSheetID'] = characterID
         return redirect("character")
     return render(request = request,
@@ -566,7 +569,11 @@ def character(request):
     characterClassLevel = character.character_class.split(':')
     characterClass = characterClassLevel[0]
     characterLevel = characterClassLevel[1]
-    
+
+    # Get various spell stats
+    spellSave = 0
+    spellMod = 0
+    spellAttack = 0
     if (characterClass.find('Barbarian') != -1):
         barbarianLevel = characterLevel
     elif (characterClass.find('Bard') != -1):
@@ -586,14 +593,12 @@ def character(request):
     elif (characterClass.find('Rogue') != -1):
         rogueLevel = characterLevel
     elif (characterClass.find('Sorcerer') != -1):
-        print("Sorcerer!")
         sorcererLevel = characterLevel
         spellSave = 8 + character.proficiency_bonus + character.charMod
         spellMod = character.charMod
         spellAttack = character.charMod + character.proficiency_bonus
         sorcererSpells = getSorcSpellAmt(characterLevel)
         sorcCantripPoss = sorcererSpells[1]
-        print(sorcererSpells)
     elif (characterClass.find('Warlock') != -1):
         warlockLevel = characterLevel
     elif (characterClass.find('Wizard') != -1):
@@ -608,6 +613,7 @@ def character(request):
     #   GET ALL CHARACTER INFORMATION FROM THE DATABASE #
     request.session['character'] = {
         # "picURL": character.character_pic,
+        "charID": request.session['characterSheetID'],
         "name": character.character_name,
         "race": character.character_race,
         "class": characterClass,
@@ -699,9 +705,6 @@ def character(request):
     }
 
     # Get the spell stat information based on character class
-    spellSave = 0
-    spellMod = 0
-    spellAttack = 0
     if (character.character_class.find('Bard') != -1):
         spellSave = 8 + character.proficiency_bonus + character.charMod
         spellMod = character.charMod
@@ -747,37 +750,181 @@ def character(request):
     request.session['spellMod'] = spellMod
     request.session['spellAttack'] = spellAttack
 
+    # Get spells known by the character
+    try :
+        allSpellsKnown = UsersSpells.objects.filter(userID = request.session['characterSheetID'])
+    except :
+        print('No spells for this character.')
+        allSpellsKnown = []
+    
 
     # Get all spells
     spellsAll = Spells.objects.all()
     spells = []
+    spellsKnown = []
+    
+
     for spell in spellsAll:
+        tags = []
+
+        # Format different statistics...
         spellLvlSmall = spell.level.split('-')[0]
+        spellCastSmallFull = spell.castTime.split(' ')
+        spellCastSmallNum = spellCastSmallFull[0]
+        spellCastChar = spellCastSmallFull[1][0]
+        
+        spellRangeNum = spell.spellRange.split(' ')[0]
+        spellRangeWord = ''
+
+        if (spell.spellRange.find('feet') != -1):
+            spellRangeWord = ' ft'
+        elif (spell.spellRange.find('mile') != -1):
+            spellRangeWord = ' mi'
+
+        spellTags = spell.tags.split(', ')
+        for tag in spellTags:
+            tags.append(tag)
+
+        # Get the spell effect; if damage: effect = damage, else effect = tags
+        # Not the best 'effect' logic, but it works?
+        spellEffect = []
+        if (spell.damage != ''):
+            spellEffect.append(spell.damage)
+        else:
+            for tag in spellTags:
+                spellEffect.append(tag)
+
+        # Shorten the save to the first few letters, if a save exists
+        saves = spell.save.split(',')
+        savesList = []
+        for save in saves:
+            savesList.append(save[0:3].upper())
+
+        # Add '/' between spell components
+        components = list(spell.components)
+        componentsList = []
+        compCount = 0
+        for component in components:
+            compCount += 1
+            componentsList.append(component)
+            if (compCount != len(spell.components)):
+                componentsList.append('/') 
+        
+        componentsList = ''.join(componentsList)
+
+
         spellDict = {
             "name": spell.spellName,
             "level": spell.level,
             "levelSmall": spellLvlSmall,
             "school": spell.school,
             "castTime": spell.castTime,
+            "castTimeSmall": spellCastSmallNum + spellCastChar, 
             "duration": spell.duration,
             "ritual": spell.ritual,
-            "range": spell.spellRange,
-            "components": spell.components,
+            "rangeNum": spellRangeNum,
+            "rangeWord": spellRangeWord,
+            "components": componentsList,
             "description": spell.description,
-            "tags": spell.tags,
+            "tags": tags,
             "damage": spell.damage,
             "save": spell.save,
+            "saveShort": savesList,
             "source": spell.source,
             "classes": spell.classes,
-            "spellNum": spell.spellNumber
+            "spellNum": spell.spellNumber,
+            "known": 'Learn',
+            "effect": spellEffect
         }
         spells.append(spellDict)
-    request.session["spells"] = spells
 
-    # request.session['spells'] = {
-    #    ""
+        for spellKnown in allSpellsKnown:
+
+            if (spell.spellNumber == spellKnown.spellID):
+                knownSpellDict = {
+                    "name": spell.spellName,
+                    "level": spell.level,
+                    "levelSmall": spellLvlSmall,
+                    "school": spell.school,
+                    "castTime": spell.castTime,
+                    "castTimeSmall": spellCastSmallNum + spellCastChar, 
+                    "duration": spell.duration,
+                    "ritual": spell.ritual,
+                    "rangeNum": spellRangeNum,
+                    "rangeWord": spellRangeWord,
+                    "components": componentsList,
+                    "description": spell.description,
+                    "tags": tags,
+                    "damage": spell.damage,
+                    "save": spell.save,
+                    "saveShort": savesList,
+                    "source": spell.source,
+                    "classes": spell.classes,
+                    "spellNum": spell.spellNumber,
+                    "known": 'Remove',
+                    "effect": spellEffect
+                }
+                spells.pop()
+                spells.append(knownSpellDict)
+                spellsKnown.append(knownSpellDict)
+
+
+    request.session["spells"] = ''
+    request.session["spellsKnown"] = ''  
+    request.session["spells"] = spells
+    request.session["spellsKnown"] = spellsKnown
+    request.session["spellsKnownNum"] = len(spellsKnown)
+    # request.session['spellSearch'] = ''
+    # request.session['typeSearch'] = False
 
     return render(request = request,
                 template_name = 'character.html')
 
+@csrf_exempt
+def spellFilter(request):
+    if request.method == 'POST':
+        level = str(request.POST.get('level'))
+        request.session['spellFilter'] = level
+        time.sleep(1)
 
+    return HttpResponse('')
+
+@csrf_exempt
+def learnButton(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if (action == 'learn'):
+            spellNum = request.POST.get('spellNum')
+            
+            if not(UsersSpells.objects.filter(userID = request.session['characterSheetID'], spellID = spellNum).exists()):
+                newUserSpell = UsersSpells()
+                newUserSpell.id = request.session['characterSheetID'] + spellNum
+                newUserSpell.spellID = spellNum
+                newUserSpell.userID = request.session['characterSheetID']
+                newUserSpell.save()
+                time.sleep(1)
+        elif (action == 'remove'):
+            spellNum = str(request.POST.get('spellNum'))
+            UsersSpells.objects.filter(userID = request.session['characterSheetID'], spellID = spellNum).delete()
+            time.sleep(1)
+        else:
+            print('Error')
+
+    return HttpResponse('')
+
+@csrf_exempt
+def spellSearch(request):
+    
+    if request.method == 'POST':
+        spellSearch = request.POST.get('spellSearch')
+        if (spellSearch != ''):
+            request.session['spellSearch'] = request.POST.get('spellSearch').lower()
+            request.session['typeSearch'] = True
+        else:
+            request.session['spellSearch'] = request.POST.get('spellSearch')
+            request.session['typeSearch'] = False
+
+        time.sleep(1)
+    
+    return HttpResponse('')
