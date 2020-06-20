@@ -25,7 +25,7 @@ SECRET_KEY = '@c(@nk&cj*4bx@6n_ip5b-5!qkyr6e1eluxw%)=j!@h9efp+ks'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [‘https://rpgsite.azurewebsites.net/’]
+ALLOWED_HOSTS = ['https://rpgsite.azurewebsites.net/']
 
 
 # Application definition
