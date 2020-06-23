@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body, main {
+    font-family: 'Roboto', 'sans-serif';
+    width: 100%;
+    height: 100%;
+}
+
+main {
+    background: #C9D6FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.welcomeNav {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.welcomeText {
+    text-align: right;
+    width: 50%;
+}
+
+.welcomeNav ul {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    list-style: none;
+    width: 50%;
+}
+
+.welcomeNav a {
+    text-decoration: none;
+}
+
+#characterContainer {
+    flex: 6;
+}
+
+/* #createContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex: 5;
+    height: calc(100vh - 100px); 
+    justify-content: center;
+}
+
+.scrollContainer {
+    align-items: center;
+    background-color: #eee;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 80%;
+    justify-content: center;
+    overflow: hidden;
+
+    -webkit-box-shadow: 0px 0px 20px -10px rgb(20,20,20);
+    -moz-box-shadow: 0px 0px 20px -10px rgb(20,20,20);
+    box-shadow: 0px 0px 20px -10px rgba(20,20,20,1);
+}
+
+.detailsContainer {
+    align-items: center;
+    background-color: #eee;
+    border-radius: 5px;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    padding: 20px 0 20px 20px;
+    overflow-y: scroll;
+}
+
+.detailsContainer label{
+    font-size: 18px;
+    margin: 10px 20px;
+}
+
+.detailsContainer select {
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+}
+.detailsContainer button {
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    height: 40px;
+    padding: 0 5px;
+    width: 100px;
+}
+
+#raceHeader, #classHeader {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.titleDescriptor, .abilityDescription, .titleDescriptorSpecial {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.detailsContainer p, #abilitiesContainer p, #classAbilitiesContainer p {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+#abilitiesContainer, #classAbilitiesContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */
+
+
+/*
+
+    NEW STUFF 2.0
+
+*/
+
+#sidenav {
+    align-items: center;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-evenly;
+    left: 0;
+    overflow-x: hidden;
+    top: 0;
+    width: 50px;
+    z-index: 1;
+}
+
+#sidenav a {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    transform: rotate(-90deg);
+}
+
+.creationSection {
+    margin-left: 50px;
+}
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+.accordion:hover, .active {
+    background-color: #ccc;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+}
